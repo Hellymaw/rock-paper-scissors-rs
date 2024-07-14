@@ -2,7 +2,7 @@ use rand::Rng;
 use std::{fmt, io};
 use Guessable::*;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 enum Outcome {
     Tied,
     Won,
@@ -110,5 +110,20 @@ fn main() {
 
         let winner = Guessable::winner(selected, pc_pick);
         println!("You {}!", winner);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_rock_outcomes() {
+        let selections = [Guessable::Rock, Guessable::Paper, Guessable::Scissors];
+        let expected_outcomes = [Outcome::Tied, Outcome::Lost, Outcome::Won];
+
+        let outcomes = selections.map(|x| Guessable::winner(Rock, x));
+
+        assert_eq!(outcomes, expected_outcomes);
     }
 }
